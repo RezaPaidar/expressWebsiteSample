@@ -8,10 +8,7 @@ const app = express();
 // 1) Middlewares
 app.use(morgan('dev'));
 app.use(express.json()); //middleware tp process request body for post
-app.use((req, res, next) => {
-  console.log('Hello from the middelware');
-  next();
-});
+app.use(express.static(`${__dirname}/public`));
 
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
