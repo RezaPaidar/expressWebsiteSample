@@ -6,16 +6,23 @@ const userRouter = require('./routes/userRoutes');
 const app = express();
 
 // 1) Middlewares
-app.use(morgan('dev'));
+//console.log(process.env.NODE_ENV);
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+
 app.use(express.json()); //middleware tp process request body for post
-app.use(express.static(`${__dirname}/public`));
+app.use((req, res, next) => {
+  console.log('Hello from the middelware');
+  next();
+});
 
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next();
 });
 
-// 3) Route
+// 3) ROUTES
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 
